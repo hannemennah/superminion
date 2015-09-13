@@ -1,0 +1,7 @@
+The tmp-### files are the frames of a .gif of a gently dilating white circle on a black background. 
+
+These image frames are looped through in the main Tkinter loop, for a soothing effect.
+
+It also has the nice bonus of signaling when the application is actually crunching numbers (as opposed to just paused and idle).
+
+The rest of the images are the icons for the buttons of superminion.
