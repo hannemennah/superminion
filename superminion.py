@@ -224,7 +224,6 @@ class MyApp(threading.Thread):
         self.refreshImage = PhotoImage(file="./images/refresh.png")
         self.refreshButton = Button(self.refresh_control_frame,
           image=self.refreshImage, relief='flat',
-          #width=button_width, height=button_height,
           padx=10,
           pady=10
           )
@@ -784,7 +783,6 @@ class MyApp(threading.Thread):
         self.writeImage = PhotoImage(file="./images/write.gif")
         self.writeButton = Button(self.bottomButtonFrame,
           image=self.writeImage, relief='flat',
-          #width=button_width, height=button_height,
           padx=10,
           pady=10
           )
@@ -865,9 +863,6 @@ class MyApp(threading.Thread):
             self.btcDA, self.btcPA, self.btcVA = buildArrays(ifile="data/bitfinex.csv", beginTime=int(self.tBegin.get()), endTime=int(self.tEnd.get()))
         else:
             self.btcDA, self.btcPA, self.btcVA = buildArrays(ifile="data/bitstamp.csv", beginTime=int(self.tBegin.get()), endTime=int(self.tEnd.get()))
-
-    def validateEntry(*args):
-        print('Updated data')
 
 
     def validate(self, action, value_if_allowed,
@@ -1476,17 +1471,9 @@ class MyApp(threading.Thread):
 
     def multiplotButtonClick(self, event): 
         self.plotgo()
-        '''
-        try:
-            run_as_thread(run_as_process, self.plotgo())
-        except:
-            print('multiplot button b0rk')
-        '''
 
     def plotgo(self):
         self.getData()
-        #plotTester = Backtester(btcDA=self.btcDA, btcPA=self.btcPA, btcVA=self.btcVA, whichVar=int(self.startNextTestVar.get()), BTSRint=int(self.startBTSRinterval.get()), BTSRcut=float(self.startBTSRcutoff.get()), BTSRret=float(self.startBTSRreturn.get()), BTSRmoas=int(self.startBTSRMOAS.get()), STBRint=int(self.startSTBRinterval.get()), STBRcut=float(self.startSTBRcutoff.get()), STBRret=float(self.startSTBRreturn.get()), STBRmoas=int(self.startSTBRMOAS.get()), volInt=int(self.startVolumeInterval.get()), volCut=float(self.startVolumeCutoff.get()), volRet=float(self.startVolumeReturn.get()), volMOAS=int(self.startVolumeMOAS.get()), vioBuyInt=int(self.startViolenceBuyInterval.get()), vioBuyCut=float(self.startViolenceBuyThreshold.get()), vioBuyRet=float(self.startViolenceBuyReturn.get()), vioSellInt=int(self.startViolenceSellInterval.get()), vioSellCut=float(self.startViolenceSellThreshold.get()), vioSellRet=float(self.startViolenceSellReturn.get()), BTSRwindowLenForward=int(self.startBTSRwindowForwardLen.get()), BTSRwindowLenBack=int(self.startBTSRwindowBackLen.get()), reactToVioBuy=self.doWeReactBySelling.get(), reactToVioSell=self.doWeReactByBuying.get(), reactToVioBuyCut=float(self.startReactSellsCutoff.get()), reactToVioSellCut=float(self.startReactBuysCutoff.get()), reactToVioBuyForward=int(self.startReactSellsWindowLen.get()), reactToVioSellForward=int(self.startReactBuysWindowLen.get()), whichExchange=('Bitstamp' if self.whichExchange.get() else 'Bitfinex'), cheatBTSR=self.BTSRcheatVarEnabled.get(), cheatSTBR=self.STBRcheatVarEnabled.get(), cheatVioBuys=self.vioBuysCheatVarEnabled.get(), cheatVioSells=self.vioSellsCheatVarEnabled.get(), doWeShort=self.doWeShort.get())
-
 
         multiPass = []
         multiString = ''
@@ -1511,9 +1498,6 @@ class MyApp(threading.Thread):
         fp.write(self.getVarString())
         fp.close()
 
-    
-        #print('MULTISETTINGS:', str(multiSettings))
-        #plotTester.vioBuysRatio, plotTester.vioSellsRatio, 'l', 'vioBRatio, vioSRatio']
         f = open('plotsettings.txt', 'a')
         f.write(str(multiSettings))
         f.write('\n')
@@ -1584,7 +1568,6 @@ class MyApp(threading.Thread):
 
 
 
-
     def thoroughButtonClick(self, event):
         if(not self.isPaused): 
             self.pauseRun(event)
@@ -1602,8 +1585,6 @@ class MyApp(threading.Thread):
         if(self.isPaused): 
             if(not wasPaused):
                 self.pauseRun(event)
-
-
 
 
 
@@ -1855,14 +1836,12 @@ def return_with_process(func, *args):
         p.start()
         p.join()
         return q.get(timeout=250)
-        #p.join()
     finally:
         p.terminate()
 
 
 def run_as_thread(func, *args):
     t = threading.Thread(target = func, args=args)
-    #t.daemon = True
     t.start()
 
 
@@ -1904,7 +1883,6 @@ def minitialize(minitfile):
                         variablesArr.append(str2bool(values[valIdx])) #doWeCheatVioSells
                     if(topLevelVal == 31): #80
                         variablesArr.append(str2bool(values[valIdx])) #doWeShort
-                    #variablesArr[topLevelVal].append(int(values[valIdx]))
                     valIdx += 1
 
 
