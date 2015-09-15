@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import collections
 
 
-
+o
 try:
     unicode = unicode
 except NameError:
@@ -823,115 +823,6 @@ class Backtester:
             if(addr < len(fullVolumeArr)):
                 fullVolumeArr[addr] += self.btcVolumeArr[trade]
         return fullVolumeArr
-
-
-    def oldCleanBuysAndSells(self, buyArr, sellArr, lag=10):
-        cleanSells = []
-        cleanBuys = []
-    
-        print('myBuys before clean are:', buyArr)
-        print('mySells before clean are:', sellArr)
-        cleanBuys.append(self.startSec)
-    
-        if(len(buyArr) == 0 and len(sellArr) == 0):
-            return cleanBuys, []
-        elif(len(buyArr) == 0):
-            if(len(sellArr) == 1):
-                if(sellArr[0] == self.startSec):
-                    return cleanBuys, []
-                else:
-                    if(sellArr[0] == self.startSec):
-                        cleanSells.append(sellArr[1]+lag)
-                        return cleanBuys, cleanSells
-                    else:
-                        cleanSells.append(sellArr[0]+lag)
-                        return cleanBuys, cleanSells
-        elif(len(sellArr) == 0):
-            return cleanBuys, cleanSells
-        else:
-            #both arrays have content
-            buyMarcher = 0 
-            sellMarcher = 0
-            currentBuy = cleanBuys[0]
-            currentSell = 0
-            if(len(sellArr) > 1 and sellArr[0] == self.startSec):
-                sellArr = sellArr[1:]
-    
-            #add first sell
-    
-            addingBuys = True if (buyArr[0] <= sellArr[0]) else False
-            if(addingBuys):
-                currentBuy = buyArr[0]
-                addingBuys = False
-                if (buyArr[0] == sellArr[0]):
-                    sellMarcher = 1
-    
-                while(buyMarcher < len(buyArr)):
-                    currentBuy = buyArr[buyMarcher]
-                    buyMarcher += 1
-                    if(sellMarcher >= len(sellArr) or currentBuy > sellArr[sellMarcher]):
-                        break
-                if(sellMarcher < len(sellArr)):
-                    cleanSells.append(sellArr[sellMarcher]+lag)
-    
-            else: #addingSells
-            
-                while(sellMarcher < len(sellArr)):
-                    currentSell = sellArr[sellMarcher]
-                    sellMarcher += 1
-                    if currentSell not in buyArr:
-                        if(currentSell > cleanBuys[0]):
-                            cleanSells.append(currentSell+lag)
-                            break
-    
-            addingBuys = True
-            while(buyMarcher < len(buyArr) and sellMarcher < len(sellArr)):
-                if(addingBuys):
-                    while(buyMarcher < len(buyArr) and buyArr[buyMarcher] < currentSell):
-                        buyMarcher += 1
-                    if(buyMarcher < len(buyArr)):
-                        currentBuy = buyArr[buyMarcher]
-                        if (currentBuy == currentSell):
-                            cleanSells.pop()
-                            sellMarcher -= 1
-                        else:
-                            cleanBuys.append(currentBuy+lag)
-                    buyMarcher += 1
-                    addingBuys = False
-                else: #addingSells
-                    while(sellMarcher < len(sellArr) and sellArr[sellMarcher] <= currentBuy):
-                        sellMarcher += 1
-                    if(sellMarcher < len(sellArr)):
-                        currentSell = sellArr[sellMarcher]
-                        cleanSells.append(currentSell+lag)
-                    sellMarcher += 1
-                    addingBuys = True
-    
-            #now we have to add the last buy or sell
-            if(buyMarcher < len(buyArr) and sellMarcher >= len(sellArr)):
-                if(currentBuy < currentSell):
-                    while(buyMarcher < len(buyArr) and buyArr[buyMarcher] <= currentSell):
-                        buyMarcher += 1
-                    if(buyMarcher < len(buyArr)):
-                        currentBuy = buyArr[buyMarcher]
-                        cleanBuys.append(currentBuy+lag)
-            elif(sellMarcher < len(sellArr) and buyMarcher >= len(buyArr)):
-                if(currentSell < currentBuy):
-                    while(sellMarcher < len(sellArr) and sellArr[sellMarcher] <= currentBuy):
-                        sellMarcher += 1
-                    if(sellMarcher < len(sellArr)):
-                        currentSell = sellArr[sellMarcher]
-                        cleanSells.append(currentSell+lag)
-    
-            #and finally, remove the elements off the end which are > btcDA[-1]
-            if(len(cleanBuys) > 0):
-                while(cleanBuys[-1] >= self.endSec):
-                    cleanBuys.pop()
-            if(len(cleanSells) > 0):
-                while(cleanSells[-1] >= self.endSec):
-                    cleanSells.pop()
-
-        return cleanBuys, cleanSells
 
 
     def calcFiatProfits(self, buyArr = [], sellArr = [], fullPriceArr = [], bleed=0.005):
