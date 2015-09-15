@@ -613,7 +613,6 @@ class Backtester:
                             plt.axvspan(self.myBuys[colorInt], self.mySells[colorInt], facecolor='#009980', alpha=0.4)
                         else:
                             plt.axvspan(self.myBuys[colorInt], self.mySells[colorInt], facecolor='g', alpha=0.2)
-                            #print('sit1, c=', colorInt, 'mB[c]=', self.myBuys[colorInt])
                         if((colorInt + 1) < len(self.myBuys)):
                             if(self.mySells[colorInt] in whichLS[0]):
                                 plt.axvspan(self.mySells[colorInt], self.myBuys[colorInt + 1], facecolor='#FF3300', alpha=0.5)
@@ -623,9 +622,7 @@ class Backtester:
                                 plt.axvspan(self.mySells[colorInt], self.myBuys[colorInt + 1], facecolor='r', alpha=0.6)
                             else: #this should mean it's in both
                                 plt.axvspan(self.mySells[colorInt], self.myBuys[colorInt + 1], facecolor='r', alpha=0.4)
-                                #print('sit2, c=', colorInt, 'mS[c]=', self.mySells[colorInt])
 
-                            #plt.axvspan(self.mySells[colorInt], self.myBuys[colorInt + 1], facecolor='r', alpha=0.5)
                         colorInt += 1
                     if(endOnGreen):
                         if(self.myBuys[colorInt] in whichLB[0]):
@@ -636,11 +633,7 @@ class Backtester:
                             plt.axvspan(self.myBuys[colorInt], self.endSec, facecolor='#009980', alpha=0.4)
                         else: #this should mean it's in both
                             plt.axvspan(self.myBuys[colorInt], self.endSec, facecolor='g', alpha=0.2)
-                            #print('sit3, c=', colorInt, 'mB[c]=', self.myBuys[colorInt])
-                        #plt.axvspan(self.myBuys[colorInt], self.endSec, facecolor='g', alpha=0.5)
                     else:
-                        #if(colorInt < len(self.mySells)):
-                        #print('COLOR INT IS ', colorInt)
                         if(self.mySells[-1] in whichLS[0]):
                             plt.axvspan(self.mySells[colorInt-1], self.endSec, facecolor='#FF3300', alpha=0.5)
                         elif(self.mySells[-1] in whichLS[1]):
@@ -649,8 +642,6 @@ class Backtester:
                             plt.axvspan(self.mySells[colorInt-1], self.endSec, facecolor='r', alpha=0.6)
                         else: #this should mean it's in both
                             plt.axvspan(self.mySells[colorInt-1], self.endSec, facecolor='r', alpha=0.4)
-                            #print('sit4, c=', colorInt, 'mS[c-1]=', self.mySells[colorInt-1])
-                        #plt.axvspan(self.mySells[colorInt-1], self.endSec, facecolor='r', alpha=0.5)
                         #FF3300 = orange
                         #00FF00 = light green
                         #'r' = red
@@ -882,7 +873,6 @@ class Backtester:
                 weAreBuying = False
 
             currROI = ((myBTC * fullPriceArr[builderIdx]) + myFiat) / initPortfolio
-            #print('myBTC = ', myBTC, 'myFiat = ', myFiat, 'currROI = ', currROI, 'on ', currDate)
             integral += currROI
             self.profitRatioArr.append(currROI)
             builderIdx += 1
@@ -919,9 +909,6 @@ class Backtester:
         spacesApart = 8
         lastBuy = 0
         lastSell = 0
-    
-        #print('buyA = ', buyArr)
-        #print('sellA = ', sellArr)
     
         while(builderIdx < lfp):
             currDate = builderIdx + rightShift
@@ -982,7 +969,6 @@ class Backtester:
                 weAreBuying = False
     
             currROI = ((myBTC * fullPriceArr[builderIdx]) + myFiat) / initPortfolio
-            #print('myBTC = ', myBTC, 'myFiat = ', myFiat, 'currROI = ', currROI, 'on ', currDate,  'bitcoinSpectrum =', bitcoinSpectrum)
             integral += currROI
             self.profitRatioArr.append(currROI)
             builderIdx += 1
@@ -1010,9 +996,6 @@ class Minion:
         self.testWindow = []
         self.resultsArr = []
         print('BEGIN MINION - Variable #', self.whichVar)
-        #self.buildTestWindow()
-        #self.maximizeIntegral()
-        #print(app.BTSRinterval2.get())
 
     def buildTestWindow(self):
         del self.testWindow [:]
@@ -1025,7 +1008,6 @@ class Minion:
         del self.resultsArr [:]
         self.app.myTester.printVariables()
         self.app.myTester.checkProfits()
-        #self.resultsArr.append(self.app.myTester.myIntegral) #lay down the current best result as buildTestWindow[0]
 
         for testVal in self.testWindow:
             self.app.myTester.printVariables()
@@ -1041,10 +1023,7 @@ class Minion:
     def maximizeReturn(self):
         self.buildTestWindow()
         del self.resultsArr [:]
-        #self.app.myTester.printVariables()
-        #self.app.myTester.checkProfits()
-        #self.resultsArr.append(self.app.myTester.myReturn) #lay down the current best result as buildTestWindow[0]
-
+        
         for testVal in self.testWindow:
             self.app.myTester.printVariables()
             self.changeAppropriateVariable(testVal)
@@ -1059,11 +1038,7 @@ class Minion:
     def maximizeReturnQueue(self, q):
         self.buildTestWindow()
         del self.resultsArr [:]
-        #self.app.myTester.printVariables()
-        #self.app.myTester.checkProfits()
-
-        #self.resultsArr.append(self.app.myTester.myReturn) #lay down the current best result as buildTestWindow[0]
-
+        
         for testVal in self.testWindow:
             self.app.myTester.printVariables()
             self.changeAppropriateVariable(testVal)
